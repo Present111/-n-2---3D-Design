@@ -4,7 +4,7 @@ import Column from "./Column";
 import Wall from "./Wall";
 import Slab from "./Slab";
 
-export default function HouseBuilder({ floors = 3 }) {
+export default function HouseBuilder({ floors = 3, clippingPlanes = [] }) {
   const floorHeight = 4;
   const columns = [
     [-4.5, 2, -4.5],
@@ -19,15 +19,17 @@ export default function HouseBuilder({ floors = 3 }) {
         const y = i * floorHeight;
         return (
           <group key={i}>
-            <Floor position={[0, y, 0]} />
+            <Floor position={[0, y, 0]} clippingPlanes={clippingPlanes} />
             {columns.map((pos, idx) => (
-              <Column key={idx} position={[pos[0], y + 2, pos[2]]} />
+              <Column
+                key={idx}
+                position={[pos[0], y + 2, pos[2]]}
+                clippingPlanes={clippingPlanes}
+              />
             ))}
-            {/* Tường bao 2 mặt */}
-            <Wall position={[0, y + 1.5, -5]} />
-            <Wall position={[0, y + 1.5, 5]} />
-            {/* Cầu thang giả */}
-            <Slab position={[0, y + 0.15, 0]} />
+            <Wall position={[0, y + 1.5, -5]} clippingPlanes={clippingPlanes} />
+            <Wall position={[0, y + 1.5, 5]} clippingPlanes={clippingPlanes} />
+            <Slab position={[0, y + 0.15, 0]} clippingPlanes={clippingPlanes} />
           </group>
         );
       })}
