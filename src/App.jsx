@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import HouseFrame from "./components/HouseFrame.jsx";
+import HouseBuilder from "./components/HouseBuilder.jsx";
 
 function CustomGrid() {
   const { scene } = useThree();
@@ -11,8 +11,7 @@ function CustomGrid() {
   useEffect(() => {
     const grid = new THREE.GridHelper(20, 20);
     scene.add(grid);
-
-    return () => scene.remove(grid); // Clean up nếu component unmount
+    return () => scene.remove(grid);
   }, [scene]);
 
   return null;
@@ -21,11 +20,14 @@ function CustomGrid() {
 export default function App() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <Canvas shadows camera={{ position: [8, 8, 8], fov: 60 }}>
+      <Canvas shadows camera={{ position: [10, 10, 10], fov: 60 }}>
+        {/* Ánh sáng */}
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1.2} castShadow />
-        <CustomGrid /> {/* Thêm Grid thủ công */}
-        <HouseFrame />
+        {/* Mặt lưới & khung nhà */}
+        <CustomGrid />
+        <HouseBuilder floors={3} /> {/* ✅ Dựng 3 tầng mặc định */}
+        {/* Điều khiển camera */}
         <OrbitControls />
       </Canvas>
     </div>
